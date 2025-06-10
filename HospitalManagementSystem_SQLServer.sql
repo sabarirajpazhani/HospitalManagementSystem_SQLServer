@@ -20,3 +20,12 @@ create table Specialization(
 	SpeicalizationName varchar(50)
 );
 
+--creating Doctors Table
+create table Doctors(
+	DoctorID int,
+	DoctorName varchar(80),
+	DoctorEmail varchar(80),
+	SpecializationID int,
+	DoctorPhone varchar(20),
+	foreign key (SpecializationID) references Specialization(SpecializationID)
+);

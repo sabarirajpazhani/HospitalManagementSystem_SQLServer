@@ -19,3 +19,5 @@ INSERT INTO Appointments VALUES
 (2, 101, '2025-06-08', '09:00', '12:00'),
 (2, 103, '2025-07-09', '10:00', '11:00');
 ```
+
+![image](https://github.com/user-attachments/assets/bc5afef8-290b-4942-af66-4914e4059cc4)

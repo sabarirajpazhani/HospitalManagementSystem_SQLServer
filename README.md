@@ -54,3 +54,26 @@ on d.DoctorID = a.DoctorID
 select * from vw_AppointmentDetails;
 ```
 ![image](https://github.com/user-attachments/assets/2fae953e-d177-4e79-bd26-4fb1342e3ed3)
+
+
+### ❓ Question 5:
+
+**5.Write a stored procedure to return all prescription details for a given patient ID.**
+
+
+## ✅ Answer:
+
+```sql
+create procedure sp_Prescription
+	@PatientID int
+as
+begin
+	declare @AppointmentID int
+	select @AppointmentID = AppointmentID from Appointments where PatientID = @PatientID
+	select * from Prescription 
+	where AppointmentID = @AppointmentID
+end;
+
+exec sp_Prescription 1;
+```
+![image](https://github.com/user-attachments/assets/2c0725d0-1495-4d33-bb60-d882d37e339a)

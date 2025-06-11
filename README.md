@@ -34,3 +34,23 @@ on d.DoctorID = a.DoctorID
 group by d.DoctorName;
 ```
 ![image](https://github.com/user-attachments/assets/ecad32cc-e060-4f73-abc7-bc0df7e95ef8)
+
+### ❓ Question 4:
+
+**Create a view to show appointment details along with patient names and doctor specializations for today’s appointments.**
+
+
+## ✅ Answer:
+
+```sql
+create view vw_AppointmentDetails
+as
+select a.AppointmentID, p.PatientName, d.DoctorName, a.Status from Appointments a
+inner join Patient p
+on p.PatientID = a.PatientID
+inner join Doctors d
+on d.DoctorID = a.DoctorID
+
+select * from vw_AppointmentDetails;
+```
+![image](https://github.com/user-attachments/assets/2fae953e-d177-4e79-bd26-4fb1342e3ed3)

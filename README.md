@@ -1,10 +1,11 @@
+### ER Diagram for Hospital Patient & Appointment Management System
+
 # 🧠 SQL Practice – Q&A Format
 
-## ❓ Question 2:
+### ❓ Question 2:
 
 **List the names of patients who have appointments with more than two different doctors.**
 
----
 
 ## ✅ Answer:
 
@@ -14,4 +15,4 @@
 INSERT INTO Appointments VALUES
 (2, 101, '2025-06-08', '09:00', '12:00'),
 (2, 103, '2025-07-09', '10:00', '11:00');
-
+```

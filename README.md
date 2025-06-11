@@ -1,5 +1,8 @@
 # ER Diagram for Hospital Patient & Appointment Management System
 
+![Untitled (1)](https://github.com/user-attachments/assets/b8f3542d-e6a7-44cc-b371-eee6735353dd)
+
+
 # 🧠 SQL Practice – Q&A Format
 
 ### ❓ Question 2:

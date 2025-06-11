@@ -1,4 +1,4 @@
-### ER Diagram for Hospital Patient & Appointment Management System
+# ER Diagram for Hospital Patient & Appointment Management System
 
 # 🧠 SQL Practice – Q&A Format
 

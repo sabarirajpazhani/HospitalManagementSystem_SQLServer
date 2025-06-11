@@ -188,3 +188,23 @@ select d.DoctorName, Count(*) from Doctors d
 inner join Appointments a
 on d.DoctorID = a.DoctorID
 group by d.DoctorName;
+
+
+--4. Create a view to show appointment details along with patient names and doctor specializations for today’s appointments.
+insert into Appointments values
+(1, 101, getdate(),'09:00','Confirmed'),
+(2, 103, getdate(),'10:00','Pending');
+
+
+select * from Appointments;
+select * from Patient;
+
+create view vw_AppointmentDetails
+as
+select a.AppointmentID, p.PatientName, d.DoctorName, a.Status from Appointments a
+inner join Patient p
+on p.PatientID = a.PatientID
+inner join Doctors d
+on d.DoctorID = a.DoctorID
+
+select * from vw_AppointmentDetails;

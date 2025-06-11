@@ -208,3 +208,18 @@ inner join Doctors d
 on d.DoctorID = a.DoctorID
 
 select * from vw_AppointmentDetails;
+
+--5. Write a stored procedure to return all prescription details for a given patient ID.
+select * from Prescription;
+
+create procedure sp_Prescription
+	@PatientID int
+as
+begin
+	declare @AppointmentID int
+	select @AppointmentID = AppointmentID from Appointments where PatientID = @PatientID
+	select * from Prescription 
+	where AppointmentID = @AppointmentID
+end;
+
+exec sp_Prescription 1;

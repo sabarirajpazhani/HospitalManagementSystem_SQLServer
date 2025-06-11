@@ -12,8 +12,6 @@
 
 ## ✅ Answer:
 
-### 🔸 Step 1: Insert Sample Appointment Data
-
 ```sql
 INSERT INTO Appointments VALUES
 (2, 101, '2025-06-08', '09:00', '12:00'),
@@ -21,3 +19,18 @@ INSERT INTO Appointments VALUES
 ```
 
 ![image](https://github.com/user-attachments/assets/bc5afef8-290b-4942-af66-4914e4059cc4)
+
+### ❓ Question 3:
+
+**Retrieve doctor names and total number of appointments they have in the current month.**
+
+
+## ✅ Answer:
+
+```sql
+select d.DoctorName, Count(*) from Doctors d 
+inner join Appointments a
+on d.DoctorID = a.DoctorID
+group by d.DoctorName;
+```
+![image](https://github.com/user-attachments/assets/ecad32cc-e060-4f73-abc7-bc0df7e95ef8)

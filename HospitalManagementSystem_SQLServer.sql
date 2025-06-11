@@ -5,112 +5,101 @@ create database HospitalSystem;
 use HospitalSystem;
 
 -- Create Patient Table
-CREATE TABLE Patient (
-	PatientID INT IDENTITY(1,1) PRIMARY KEY,
-	PatientName VARCHAR(80),
-	PatientEmail VARCHAR(80),
-	PatientAge INT,
-	Gender VARCHAR(10),
-	PatientPhone VARCHAR(20)
+create table Patient (
+	PatientID int identity(1,1) primary key,
+	PatientName varchar(80),
+	PatientEmail varchar(80),
+	PatientAge int,
+	Gender varchar(10),
+	PatientPhone varchar(20)
 );
 
--- Creating Specialization Table
-CREATE TABLE Specialization (
-	SpecializationID INT PRIMARY KEY,
-	SpeicalizationName VARCHAR(50)
+-- creating Specialization table
+create table Specialization (
+	SpecializationID int primary key,
+	SpecializationName varchar(50)
 );
 
--- Creating Doctors Table
-CREATE TABLE Doctors (
-	DoctorID INT PRIMARY KEY,
-	DoctorName VARCHAR(80),
-	DoctorEmail VARCHAR(80),
-	SpecializationID INT,
-	DoctorPhone VARCHAR(20),
-	FOREIGN KEY (SpecializationID) REFERENCES Specialization(SpecializationID)
+-- creating Doctors table
+create table Doctors (
+	DoctorID int primary key,
+	DoctorName varchar(80),
+	DoctorEmail varchar(80),
+	SpecializationID int,
+	DoctorPhone varchar(20),
+	foreign key (SpecializationID) references Specialization(SpecializationID)
 );
 
--- Creating Doctor Availability
-CREATE TABLE DoctorAvailability (
-	DoctorID INT,
-	AvailabilityDay DATE,
-	StartTime TIME,
-	EndTime TIME,
-	PRIMARY KEY (DoctorID, AvailabilityDay),
-	FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+-- creating DoctorAvailability table
+create table DoctorAvailability (
+	DoctorID int,
+	AvailabilityDay date,
+	StartTime time,
+	EndTime time,
+	primary key (DoctorID, AvailabilityDay),
+	foreign key (DoctorID) references Doctors(DoctorID)
 );
 
--- Create Table for Appointment
-CREATE TABLE Appointments (
-	AppointmentID INT IDENTITY(101,1) PRIMARY KEY, -- Unique appointment ID
-	PatientID INT,
-	DoctorID INT,
-	AppointmentDate DATE,
-	AppointmentTime TIME,
-	Status VARCHAR(50),
-	UNIQUE(PatientID, DoctorID, AppointmentDate), -- Composite uniqueness
-	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
-	FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+-- create table for Appointments
+create table Appointments (
+	AppointmentID int identity(101,1) primary key,
+	PatientID int,
+	DoctorID int,
+	AppointmentDate date,
+	AppointmentTime time,
+	Status varchar(50),
+	unique(PatientID, DoctorID, AppointmentDate),
+	foreign key (PatientID) references Patient(PatientID),
+	foreign key (DoctorID) references Doctors(DoctorID)
 );
 
--- Create Table for Pharmacy
-CREATE TABLE Pharmacy (
-	MedicineID INT PRIMARY KEY,
-	MedicineName VARCHAR(60),
-	UnitPrice INT,
-	AvailableStock INT
+-- create table for Pharmacy
+create table Pharmacy (
+	MedicineID int primary key,
+	MedicineName varchar(60),
+	UnitPrice int,
+	AvailableStock int
 );
 
--- Create Table for MedicinePurchased
-CREATE TABLE MedicinePurchased (
-	PurchasedID INT PRIMARY KEY,
-	AppointmentID INT,
-	PurchasedDate DATE,
-	TotalAmount INT,
-	FOREIGN KEY (AppointmentID) REFERENCES Appointments(AppointmentID)
+-- create table for MedicinePurchased
+create table MedicinePurchased (
+	PurchasedID int primary key,
+	AppointmentID int,
+	PurchasedDate date,
+	TotalAmount int,
+	foreign key (AppointmentID) references Appointments(AppointmentID)
 );
 
--- Create Table for Prescription
-CREATE TABLE Prescription (
-	AppointmentID INT,
-	MedicineID INT,
-	Dosage VARCHAR(90),
-	Quantity INT,
-	NumberOfDay INT,
-	Information VARCHAR(80),
-	PRIMARY KEY (AppointmentID, MedicineID),
-	FOREIGN KEY (AppointmentID) REFERENCES Appointments(AppointmentID),
-	FOREIGN KEY (MedicineID) REFERENCES Pharmacy(MedicineID)
+-- create table for Prescription
+create table Prescription (
+	AppointmentID int,
+	MedicineID int,
+	Dosage varchar(90),
+	Quantity int,
+	NumberOfDay int,
+	Information varchar(80),
+	primary key (AppointmentID, MedicineID),
+	foreign key (AppointmentID) references Appointments(AppointmentID),
+	foreign key (MedicineID) references Pharmacy(MedicineID)
 );
 
--- Creating Table for PaymentMethod
-CREATE TABLE PaymentMethod (
-	PaymentMethodID INT PRIMARY KEY,
-	PaymentMethodName VARCHAR(80)
+-- creating table for PaymentMethod
+create table PaymentMethod (
+	PaymentMethodID int primary key,
+	PaymentMethodName varchar(80)
 );
 
--- Creating Table for MedicinePayment
-CREATE TABLE MedicinePayment (
-	PaymentID INT PRIMARY KEY,
-	PatientID INT,
-	PaymentMethodID INT,
-	PurchasedID INT,
-	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
-	FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod(PaymentMethodID),
-	FOREIGN KEY (PurchasedID) REFERENCES MedicinePurchased(PurchasedID)
+-- creating table for MedicinePayment
+create table MedicinePayment (
+	PaymentID int primary key,
+	PatientID int,
+	PaymentMethodID int,
+	PurchasedID int,
+	foreign key (PatientID) references Patient(PatientID),
+	foreign key (PaymentMethodID) references PaymentMethod(PaymentMethodID),
+	foreign key (PurchasedID) references MedicinePurchased(PurchasedID)
 );
 
-
-SELECT * FROM Patient;
-SELECT * FROM Specialization;
-SELECT * FROM Doctors;
-SELECT * FROM DoctorAvailability;
-SELECT * FROM Appointments;
-SELECT * FROM Pharmacy;
-SELECT * FROM MedicinePurchased;
-SELECT * FROM Prescription;
-SELECT * FROM PaymentMethod;
-SELECT * FROM MedicinePayment;
 
 --Patient
 insert into Patient (PatientName, PatientEmail, PatientAge, Gender, PatientPhone) values
@@ -118,7 +107,7 @@ insert into Patient (PatientName, PatientEmail, PatientAge, Gender, PatientPhone
 ('Priya Sharma', 'priya@gmail.com', 27, 'Female', '9876501234');
 
 --Specialization
-insert into Specialization (SpecializationID, SpeicalizationName) values
+insert into Specialization (SpecializationID, SpecializationName) values
 (1, 'Cardiology'),
 (2, 'Neurology'),
 (3, 'Dermatology');
@@ -167,3 +156,28 @@ insert into PaymentMethod (PaymentMethodID, PaymentMethodName) values
 insert into MedicinePayment (PaymentID, PatientID, PaymentMethodID, PurchasedID) values
 (401, 1, 2, 301),
 (402, 2, 3, 302);
+
+select * from Patient;
+select * from Specialization;
+select * from Doctors;
+select * from DoctorAvailability;
+select * from Appointments;
+select * from Pharmacy;
+select * from MedicinePurchased;
+select * from Prescription;
+select * from PaymentMethod;
+select * from MedicinePayment;
+
+--2. List the names of patients who have appointments with more than two different doctors.
+insert into Appointments values
+(2, 101, '2025-06-08','09:00','12:00'),
+(2, 103, '2025-07-09','10:00','11:00');
+
+select * from Appointments;
+select * from Patient;
+
+select P.PatientName, Count(*) as Counts from Patient P
+inner join Appointments A
+on P.PatientID = A.PatientID
+group by P.PatientName
+having Count(*) > 2;

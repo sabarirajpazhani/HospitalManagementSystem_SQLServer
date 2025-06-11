@@ -181,3 +181,10 @@ inner join Appointments A
 on P.PatientID = A.PatientID
 group by P.PatientName
 having Count(*) > 2;
+
+
+--3. 3.	Retrieve doctor names and total number of appointments they have in the current month.
+select d.DoctorName, Count(*) from Doctors d 
+inner join Appointments a
+on d.DoctorID = a.DoctorID
+group by d.DoctorName;

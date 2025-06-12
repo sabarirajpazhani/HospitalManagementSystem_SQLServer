@@ -82,7 +82,7 @@ create table Prescription (
 	foreign key (AppointmentID) references Appointments(AppointmentID),
 	foreign key (MedicineID) references Pharmacy(MedicineID)
 );
-
+drop table Prescription 
 -- creating table for PaymentMethod
 create table PaymentMethod (
 	PaymentMethodID int primary key,
@@ -241,3 +241,27 @@ drop procedure sp_Prescription;
 
 select * from Appointments;
 select * from Prescription;
+
+--6. Create a trigger that automatically updates medicine stock after a prescription is issued.
+create trigger trStockUpdate
+on Prescription
+after insert
+as
+begin
+	declare @MedicineID int, @Quantity int;
+	select @MedicineID = MedicineID, @Quantity = Quantity from inserted
+
+	update Pharmacy 
+	set AvailableStock = AvailableStock - @Quantity
+	where MedicineID = @MedicineID
+end;
+
+insert into Prescription values
+(102, 202, '500mg', 10, 5, 'Take after food');
+
+select * from Pharmacy;
+select * from Prescription;
+
+delete from Prescription
+where AppointmentID = 101;
+	

@@ -183,10 +183,11 @@ group by P.PatientName
 having Count(*) > 2;
 
 
---3. 3.	Retrieve doctor names and total number of appointments they have in the current month.
+--3.	Retrieve doctor names and total number of appointments they have in the current month.
 select d.DoctorName, Count(*) from Doctors d 
 inner join Appointments a
 on d.DoctorID = a.DoctorID
+where datename(month, getdate()) = datename(month, a.AppointmentDate)
 group by d.DoctorName;
 
 
@@ -201,13 +202,19 @@ select * from Patient;
 
 create view vw_AppointmentDetails
 as
-select a.AppointmentID, p.PatientName, d.DoctorName, a.Status from Appointments a
+select a.AppointmentID, p.PatientName, d.DoctorName, s.SpecializationName, a.Status from Appointments a
 inner join Patient p
 on p.PatientID = a.PatientID
 inner join Doctors d
 on d.DoctorID = a.DoctorID
+inner join Specialization s
+on d.SpecializationID = s.SpecializationID
+where a.AppointmentDate = '2025-06-11';
+
+drop view vw_AppointmentDetails
 
 select * from vw_AppointmentDetails;
+select * from Appointments;
 
 --5. Write a stored procedure to return all prescription details for a given patient ID.
 select * from Prescription;

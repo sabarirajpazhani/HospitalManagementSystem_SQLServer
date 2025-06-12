@@ -219,14 +219,25 @@ select * from Appointments;
 --5. Write a stored procedure to return all prescription details for a given patient ID.
 select * from Prescription;
 
+insert into Prescription (AppointmentID, MedicineID, Dosage, Quantity, NumberOfDay, Information) values
+(105, 201, '240mg',3, 5, 'After Food');
+
 create procedure sp_Prescription
 	@PatientID int
 as
 begin
-	declare @AppointmentID int
-	select @AppointmentID = AppointmentID from Appointments where PatientID = @PatientID
-	select * from Prescription 
-	where AppointmentID = @AppointmentID
+	create table #TempAppointment(
+		AppointmentID int
+	);
+	insert into #TempAppointment
+	select AppointmentID from Appointments where PatientID = @PatientID;
+
+	select * from Prescription where AppointmentID  in (select * from #TempAppointment);
 end;
 
 exec sp_Prescription 1;
+
+drop procedure sp_Prescription;
+
+select * from Appointments;
+select * from Prescription;

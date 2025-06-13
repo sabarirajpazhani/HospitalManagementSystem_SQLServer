@@ -243,17 +243,23 @@ select * from Appointments;
 select * from Prescription;
 
 --6. Create a trigger that automatically updates medicine stock after a prescription is issued.
-create trigger trStockUpdate
+alter trigger trStockUpdate
 on Prescription
 after insert
 as
 begin
-	declare @MedicineID int, @Quantity int;
-	select @MedicineID = MedicineID, @Quantity = Quantity from inserted
+	update p
+	set p.AvailableStock = p.AvailableStock - i.Quantity
+	from Pharmacy p
+	inner join inserted i
+	on p.MedicineID = i.MedicineID 
 
-	update Pharmacy 
-	set AvailableStock = AvailableStock - @Quantity
-	where MedicineID = @MedicineID
+	--declare @MedicineID int, @Quantity int;
+	--select @MedicineID = MedicineID, @Quantity = Quantity from inserted
+
+	--update Pharmacy 
+	--set AvailableStock = AvailableStock - @Quantity
+	--where MedicineID = @MedicineID
 end;
 
 insert into Prescription values
@@ -261,7 +267,3 @@ insert into Prescription values
 
 select * from Pharmacy;
 select * from Prescription;
-
-delete from Prescription
-where AppointmentID = 101;
-	

@@ -63,7 +63,7 @@ create table Pharmacy (
 
 -- create table for MedicinePurchased
 create table MedicinePurchased (
-	PurchasedID int primary key,
+	PurchasedID int identity(301,1) primary key,
 	AppointmentID int,
 	PurchasedDate date,
 	TotalAmount int,
@@ -248,12 +248,19 @@ on Prescription
 after insert
 as
 begin
+	--auto correction stock
 	update p
 	set p.AvailableStock = p.AvailableStock - i.Quantity
 	from Pharmacy p
 	inner join inserted i
 	on p.MedicineID = i.MedicineID 
 
+	--auto calculate
+	insert into MedicinePurchased values (AppointmentID, PurchasedDate, TotalAmount)
+	select i.AppointmentID, Getdate(), i.Quantity * p.Pharmacy from inserted i
+	inner join Pharmacy p 
+	on p.MedicineID = i.MedicineID
+	
 	--declare @MedicineID int, @Quantity int;
 	--select @MedicineID = MedicineID, @Quantity = Quantity from inserted
 
@@ -267,3 +274,4 @@ insert into Prescription values
 
 select * from Pharmacy;
 select * from Prescription;
+
